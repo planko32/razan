@@ -1,500 +1,568 @@
 
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Log In</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="description" content="EXARAI">
-  <meta http-equiv="pragma" content="no-cache">
-  <meta http-equiv="cache-control" content="no-cache">
-  <meta http-equiv="expires" content="0">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-  <meta name="robots" content="noindex, nofollow">
-
-  <!-- Original site css -->
-  <link rel="stylesheet" crossorigin href="./Log In_files/highlight-v20251127071734-ZgkIHsf0.css">
-  <link rel="stylesheet" crossorigin href="./Log In_files/vant-ui-v20251127071734-C767WeoM.css">
-  <link rel="stylesheet" crossorigin href="./Log In_files/element-plus-v20251127071734-xGTMDgcT.css">
-  <link rel="stylesheet" crossorigin href="./Log In_files/index-v20251127071734-Ccv9kcYE.css">
-  <link rel="stylesheet" crossorigin href="./Log In_files/popupSlot-v20251127071734-DL6X8bxz.css">
-  <link rel="stylesheet" crossorigin href="./Log In_files/popupModel-v20251127071734-X5TU4CUz.css">
-  <link rel="stylesheet" crossorigin href="./Log In_files/layout-v20251127071734-fVEZnBd7.css">
-  <link rel="stylesheet" crossorigin href="./Log In_files/login-v20251127071734-CsKYi361.css">
-  <link rel="stylesheet" crossorigin href="./Log In_files/arrow-down-on-v20251127071734--jBe8PBw.css">
-  <link rel="stylesheet" crossorigin href="./Log In_files/login-v20251127071734-DY96_3E1.css">
-
+  <meta charset="UTF-8" />
+  <title>Log In - EXARAI Style</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <style>
-    /* Extra helpers for static version (keeps original look) */
+    :root {
+      --bg: #020617;
+      --card-bg: #020617;
+      --section-bg: #020617;
+      --accent: #22c55e;
+      --accent-soft: rgba(34, 197, 94, 0.14);
+      --border-subtle: rgba(148, 163, 184, 0.38);
+      --text-main: #e5e7eb;
+      --text-soft: #9ca3af;
+      --error: #fb7185;
+      --btn-disabled: #111827;
+      --btn-text-disabled: #6b7280;
+      --input-bg: #020617;
+      --shadow-soft: 0 20px 60px rgba(15, 23, 42, 0.9);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
     body {
-      background-color: #05060b;
-    }
-
-    .login-page-out {
       min-height: 100vh;
-    }
-
-    /* Phone code popup */
-    .phone-code-modal {
-      position: fixed;
-      inset: 0;
-      display: none;
-      align-items: flex-end;
-      justify-content: center;
-      z-index: 2000;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    }
-
-    .phone-code-modal.show {
+      margin: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
+      background: var(--bg);
+      color: var(--text-main);
       display: flex;
+      align-items: stretch;
+      justify-content: center;
+      padding: 0;
     }
 
-    .phone-code-backdrop {
-      position: absolute;
-      inset: 0;
-      background: rgba(15, 23, 42, 0.6);
-      backdrop-filter: blur(4px);
-    }
-
-    .phone-code-panel {
-      position: relative;
+    .page {
       width: 100%;
       max-width: 480px;
-      background: #020617;
-      border-radius: 16px 16px 0 0;
-      padding: 12px 12px 16px;
-      box-shadow: 0 -12px 30px rgba(15, 23, 42, 0.9);
-      z-index: 1;
-    }
-
-    .phone-code-header {
+      background: radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.16), transparent 55%),
+                  radial-gradient(circle at 90% 0%, rgba(59, 130, 246, 0.18), transparent 55%),
+                  #020617;
+      min-height: 100vh;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 4px 4px 8px;
+      flex-direction: column;
+      color: var(--text-main);
     }
 
-    .phone-code-title {
-      font-size: 14px;
-      color: #e5e7eb;
-    }
-
-    .phone-code-close {
-      width: 26px;
-      height: 26px;
-      border-radius: 999px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-    }
-
-    .phone-code-close-icon {
+    .hero {
       position: relative;
-      width: 14px;
-      height: 14px;
+      width: 100%;
+      height: 210px;
+      background-image: url("Log In_files/login-bg-h5-CVRiyHgB.png");
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      overflow: hidden;
     }
 
-    .phone-code-close-icon::before,
-    .phone-code-close-icon::after {
-      content: "";
+    .hero-overlay {
       position: absolute;
-      inset: 50%;
-      width: 100%;
-      height: 2px;
-      background: #9ca3af;
-      transform-origin: center;
-    }
-
-    .phone-code-close-icon::before {
-      transform: translate(-50%, -50%) rotate(45deg);
-    }
-
-    .phone-code-close-icon::after {
-      transform: translate(-50%, -50%) rotate(-45deg);
-    }
-
-    .phone-code-search {
-      margin: 0 4px 10px;
-    }
-
-    .phone-code-search-input {
-      width: 100%;
-      border-radius: 999px;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      padding: 7px 12px;
-      background: #020617;
-      color: #f9fafb;
-      font-size: 13px;
-      outline: none;
-    }
-
-    .phone-code-search-input::placeholder {
-      color: #6b7280;
-    }
-
-    .phone-code-list-label {
-      font-size: 11px;
-      color: #9ca3af;
-      margin: 0 4px 4px;
-    }
-
-    .phone-code-list {
-      max-height: 260px;
-      overflow-y: auto;
-      padding: 2px 0;
-    }
-
-    .phone-code-item {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 8px 8px;
-      border-radius: 10px;
-      cursor: pointer;
-    }
-
-    .phone-code-item:active {
-      background: rgba(15, 23, 42, 0.9);
-    }
-
-    .phone-code-item-main {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .phone-code-flag {
-      width: 20px;
-      height: 14px;
-      border-radius: 3px;
-      background: #1f2937;
-    }
-
-    .phone-code-name {
-      font-size: 13px;
-      color: #e5e7eb;
-    }
-
-    .phone-code-dial {
-      font-size: 13px;
-      color: #9ca3af;
-    }
-
-    .phone-code-check {
-      font-size: 14px;
-      color: #22c55e;
-    }
-
-    /* Prefix box tweak */
-    .prefix_box {
-      cursor: pointer;
-    }
-
-    .prefix_box span.phone-code-text {
-      margin-right: 4px;
-    }
-
-    /* Login button enabled/disabled */
-    .bt {
-      transition: opacity 0.2s ease, filter 0.2s ease;
-    }
-
-    .bt.login-disabled {
-      opacity: 0.35;
-      filter: grayscale(0.3);
+      inset: 0;
+      background: radial-gradient(circle at 20% 0%, rgba(15, 23, 42, 0.4), transparent 55%),
+                  radial-gradient(circle at 80% 0%, rgba(15, 23, 42, 0.65), transparent 55%);
       pointer-events: none;
     }
 
-    .bt.login-enabled {
-      opacity: 1;
-      filter: none;
-      pointer-events: auto;
+    .hero-topbar {
+      position: absolute;
+      inset: 0 0 auto 0;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 14px 14px 0;
+      z-index: 2;
+    }
+
+    .icon-button {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      border: 0;
+      background: rgba(0, 0, 0, 0.45);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #e5e7eb;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55);
+    }
+
+    .icon-button span {
+      font-size: 18px;
+      line-height: 1;
+      transform: translateY(-1px);
+    }
+
+    .icon-button--secondary span {
+      font-size: 16px;
+      transform: translateY(0);
+    }
+
+    .hero-content {
+      position: absolute;
+      inset: auto 18px 18px 18px;
+      z-index: 1;
+      color: #e5e7eb;
+    }
+
+    .hero-title {
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .hero-subtitle {
+      font-size: 12px;
+      color: rgba(226, 232, 240, 0.9);
+      max-width: 260px;
+      line-height: 1.45;
+    }
+
+    .content {
+      flex: 1;
+      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), #020617 30%);
+      padding: 16px 14px 18px;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border-radius: 18px 18px 0 0;
+      padding: 18px 14px 18px;
+      border-top: 1px solid rgba(15, 23, 42, 0.9);
+      border-inline: 1px solid rgba(15, 23, 42, 0.9);
+      box-shadow: var(--shadow-soft);
+    }
+
+    .card-header {
+      margin-bottom: 14px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .card-subtitle {
+      font-size: 12px;
+      color: var(--text-soft);
+    }
+
+    .field-group {
+      margin-bottom: 14px;
+    }
+
+    .field-label {
+      font-size: 12px;
+      color: var(--text-soft);
+      margin-bottom: 6px;
+    }
+
+    .phone-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .select-country {
+      position: relative;
+      flex: 0 0 34%;
+    }
+
+    .select-country select {
+      width: 100%;
+      height: 44px;
+      padding: 0 30px 0 12px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 13px;
+      outline: none;
+      appearance: none;
+    }
+
+    .select-country::after {
+      content: "";
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%) rotate(45deg);
+      width: 7px;
+      height: 7px;
+      border-right: 1.5px solid var(--text-soft);
+      border-bottom: 1.5px solid var(--text-soft);
+      pointer-events: none;
+    }
+
+    .input {
+      width: 100%;
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--border-subtle);
+      background: var(--input-bg);
+      color: var(--text-main);
+      font-size: 13px;
+      padding: 0 12px;
+      outline: none;
+    }
+
+    .input::placeholder {
+      color: rgba(148, 163, 184, 0.85);
+    }
+
+    .input:focus,
+    .select-country select:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.65);
+    }
+
+    .password-row {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .password-row input {
+      padding-right: 44px;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      border: none;
+      background: transparent;
+      color: var(--text-soft);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 4px;
+    }
+
+    .password-toggle--active {
+      color: var(--accent);
+    }
+
+    .field-hint {
+      margin-top: 5px;
+      font-size: 11px;
+      color: var(--text-soft);
+    }
+
+    .field-error {
+      margin-top: 5px;
+      font-size: 11px;
+      color: var(--error);
+      display: none;
+    }
+
+    .options-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin: 12px 0 14px;
+      gap: 12px;
+    }
+
+    .checkbox {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 12px;
+      color: var(--text-soft);
+      cursor: pointer;
+    }
+
+    .checkbox input {
+      width: 14px;
+      height: 14px;
+      border-radius: 4px;
+      border: 1px solid var(--border-subtle);
+      accent-color: var(--accent);
+      cursor: pointer;
+    }
+
+    .link-inline {
+      font-size: 12px;
+      color: #38bdf8;
+      text-decoration: none;
+    }
+
+    .link-inline:hover {
+      text-decoration: underline;
+    }
+
+    .btn-primary {
+      width: 100%;
+      height: 46px;
+      border-radius: 999px;
+      border: none;
+      background: var(--btn-disabled);
+      color: var(--btn-text-disabled);
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: not-allowed;
+      transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease, color 0.18s ease;
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+    }
+
+    .btn-primary--active {
+      background: linear-gradient(135deg, #22c55e, #16a34a);
+      color: #e5e7eb;
+      cursor: pointer;
+      box-shadow: 0 16px 40px rgba(22, 163, 74, 0.75);
+    }
+
+    .btn-primary--active:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 20px 50px rgba(22, 163, 74, 0.9);
+    }
+
+    .agreement {
+      margin-top: 12px;
+      font-size: 11px;
+      color: var(--text-soft);
+      line-height: 1.5;
+    }
+
+    .agreement a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+
+    .agreement a:hover {
+      text-decoration: underline;
+    }
+
+    .signup-row {
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--text-soft);
+      text-align: center;
+    }
+
+    .signup-row a {
+      color: #38bdf8;
+      text-decoration: none;
+    }
+
+    .signup-row a:hover {
+      text-decoration: underline;
+    }
+
+    @media (min-width: 768px) {
+      body {
+        justify-content: center;
+      }
+      .page {
+        margin: 24px 0;
+        border-radius: 18px;
+        overflow: hidden;
+      }
+      .content {
+        padding-inline: 20px;
+      }
+      .card {
+        padding-inline: 18px;
+      }
     }
   </style>
 </head>
 <body>
-  <div id="app">
-    <div class="page-out light notBottom">
-      <div class="flex-1 right-box">
-        <div class="content_box">
-          <div class="right-box-view w100">
-            <div class="login-page-out">
-              <div class="login-page-tips flex-center">
-                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAKASURBVHgB7Z3LTcNAEIYnFEADFAA0EBqAM4J7QgGUwBlBARSAyJ0UgFIAaQAKIA1AAWGGOCKAeGRtdl7/J60sgU//57Xj7OyECAAAAAAAAAAAAAAAAAD4d3oUmPl83ufDPo/d5k8zHne9Xm9CRggrgMM/48Pwm3+PeZyziBdSJqQADv+SD0e/nDZlAQNSZoOC8cfwhT6fOyRlQglYI/wlB6RMmFtQQfhv8G1omxQJMQNKw7eAewEtw5+RMq4FdHDl35MybgV0EL5c/VekjMuHcAfhywvYgB/AD6SMOwGRwhdcCYgWvuBGQMTwBRcCooYvmBcQOXzBtIDo4QtmBWQIXzApIEv4gjkBmcIXTAnIFr5gRkDG8AUTArKGL6gLyBy+oCoge/iCmgCEv0BFAMJ/p7oAhP+RqgIQ/leqrQk3tZoI/xNVZkBTpTyickKGL9SaAcdUTtjwhVoCtqiM0OEL1uuCnpsRlloCnqgMmTkjfoaUziDz1BIwpnJCS6gigO/hUz5MqZywEmo+A055PFI5ISXUfhPepMX7wA6VI0W18slIvbS8CzS+C4KEFbS+DYWEBs31AEgg/RWx9BIsrAmnlmClKiKtBEt1QSklWKuMSyfBYm1oKglWq6PTSLC8PyCFBOs7ZMJL8LBHLLQEL7skw0rwtE84pARvO+XDSfDYKyKUBK/dUrqScKjdutJlvyAOTWqFpOVk2zXmE1LGbcOmjiTskTKuW5Z1IEG9wsJ9076WEtTLHkO0rWwhobRksjPCdM4tlHBDyoRqXbymhOumZFKVcM27VyTc/nCahH9BBsjwAw6yL235aUc2ekwsXPkAAAAAAAAAAAAAAAAAQEVeATezWscW2iRgAAAAAElFTkSuQmCC" alt="">
-                Please confirm that you are using the official website https://exarai.online/home
+  <div class="page">
+    <header class="hero">
+      <div class="hero-overlay"></div>
+      <div class="hero-topbar">
+        <button type="button" class="icon-button" id="backButton" aria-label="Back">
+          <span>‹</span>
+        </button>
+        <button type="button" class="icon-button icon-button--secondary" id="supportButton" aria-label="Support">
+          <span>🎧</span>
+        </button>
+      </div>
+      <div class="hero-content">
+        <div class="hero-title">EXARAI</div>
+        <div class="hero-subtitle">
+          Unleash your creativity with the power of EXARAI.
+          Explore the future of AI.
+        </div>
+      </div>
+    </header>
+
+    <main class="content">
+      <section class="card">
+        <div class="card-header">
+          <h1 class="card-title">Log In</h1>
+          <p class="card-subtitle">Use your phone number and password to access your account.</p>
+        </div>
+
+        <form id="loginForm" novalidate>
+          <div class="field-group">
+            <div class="field-label">Phone</div>
+            <div class="phone-row">
+              <div class="select-country">
+                <select id="countryCode" name="country_code">
+                  <option value="+961" selected>+961</option>
+                  <option value="+966">+966</option>
+                  <option value="+971">+971</option>
+                  <option value="+962">+962</option>
+                  <option value="+20">+20</option>
+                  <option value="+90">+90</option>
+                  <option value="+44">+44</option>
+                  <option value="+1">+1</option>
+                </select>
               </div>
-
-              <div class="login-page-wrap">
-                <div class="left-box"></div>
-                <div class="right-box">
-                  <div class="right-box-content">
-                    <div class="login-box">
-                      <div class="mobilesign not-bg">
-                        <div class="van-nav-bar__placeholder" style="height: 46px;">
-                          <div class="van-nav-bar van-nav-bar--fixed van-hairline--bottom van-safe-area-top">
-                            <div class="van-nav-bar__content">
-                              <div class="van-nav-bar__left van-haptics-feedback">
-                                <img class="mobileleft" src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAYAAADimHc4AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAKASURBVHgB7Z3LTcNAEIYnFEADFAA0EBqAM4J7QgGUwBlBARSAyJ0UgFIAaQAKIA1AAWGGOCKAeGRtdl7/J60sgU//57Xj7OyECAAAAAAAAAAAAAAAAAD4d3oUmPl83ufDPo/d5k8zHne9Xm9CRggrgMM/48Pwm3+PeZyziBdSJqQADv+SD0e/nDZlAQNSZoOC8cfwhT6fOyRlQglYI/wlB6RMmFtQQfhv8G1omxQJMQNKw7eAewEtw5+RMq4FdHDl35MybgV0EL5c/VekjMuHcAfhywvYgB/AD6SMOwGRwhdcCYgWvuBGQMTwBRcCooYvmBcQOXzBtIDo4QtmBWQIXzApIEv4gjkBmcIXTAnIFr5gRkDG8AUTArKGL6gLyBy+oCoge/iCmgCEv0BFAMJ/p7oAhP+RqgIQ/leqrQk3tZoI/xNVZkBTpTyickKGL9SaAcdUTtjwhVoCtqiM0OEL1uuCnpsRlloCnqgMmTkjfoaUziDz1BIwpnJCS6gigO/hUz5MqZywEmo+A055PFI5ISXUfhPepMX7wA6VI0W18slIvbS8CzS+C4KEFbS+DYWEBs31AEgg/RWx9BIsrAmnlmClKiKtBEt1QSklWKuMSyfBYm1oKglWq6PTSLC8PyCFBOs7ZMJL8LBHLLQEL7skw0rwtE84pARvO+XDSfDYKyKUBK/dUrqScKjdutJlvyAOTWqFpOVk2zXmE1LGbcOmjiTskTKuW5Z1IEG9wsJ9076WEtTLHkO0rWwhobRksjPCdM4tlHBDyoRqXbymhOumZFKVcM27VyTc/nCahH9BBsjwAw6yL235aUc2ekwsXPkAAAAAAAAAAAAAAAAAQEVeATezWscW2iRgAAAAAElFTkSuQmCC" alt="">
-                              </div>
-                              <div class="van-nav-bar__title van-ellipsis">
-                                <div class="mobiletitle"></div>
-                              </div>
-                              <div class="van-nav-bar__right van-haptics-feedback">
-                                <img class="lang" src="./Log In_files/customer-service-CmHPfbWz.png" alt="">
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="logo_bg">
-                        <img src="./Log In_files/login-bg-h5-CVRiyHgB.png" alt="">
-                      </div>
-
-                      <div class="user-login-box">
-                        <div class="user-login-title user-login-title-h5">Log In</div>
-
-                        <!-- Phone input -->
-                        <div class="box-li">
-                          <div class="inp-title">Phone</div>
-                          <div class="inp flex-align inp-phone">
-                            <div class="inp-l flex-align">
-                              <div class="prefix_box" id="phoneCodeTrigger">
-                                <span class="phone-code-text">+386</span>
-                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAKxSURBVHgB7ZmxbhNBEIbnogghBBQUCAkkSuAFeACgD0pv5QEgPQp1EkgLSR1wD1iiBApKRG+ZmijQUAQJCQlh/l+MlZO9u97d27MdZT7p11m+29uZ8czs3lnEMAzDMAzDMAzDMAzDMCYYDocXoKs8yoIzslVKoDd7An2GBqpusQkKoj9Qt2bnQG0P2loFbshfuwe5bnAEbVVV9VoWANi6isMG5MrQA2gFtv50jV0SP4/F7Ty5CDG66zJn1IZtcTtP6MOab3woALdkOg9hwO48eoOW5x5tiLh81XciVAIDiYdp1kGaHcgM0Lruij9DJ4BtN1zfhzIgxRka8gaG3ZWW0Tl8vclH33ciFIBXkgb7wl6bfUHvzbRPLbkXvhOVhCdkmt2WdN5Bj3ydNxXtMU+hnAzrw477vpOhDGDddCQQvQD3oF6J/YLegymf4/x+yHkSzICaEVxGNiQd7heYCe8lA613/vI5q8wm5n057aKoAKgxXBZ3Ja35jHgOY56lDNB6j1nixmHzfoD5+jEXRwdAjaLzbEI3JZ2ovtC03uW/89ErWFIARsBIlsNa+sjwfiFnfa/Bet9OHJMXANKgL9D5zfG+gPtxtclZ4kQi691FdgBIqb4wq3p30SgApGFf6OlxRdJJrncXjQMwIqMvLENX9PM36E/80Lx6d1EsAARBYBrHbIXPQpfleCNG539AvyLGZte7i6IBIBF9gc8MlzznGIQjzzmmOpfRT1KQ4gEggeWMaX8tMPQv9FWPdYrUu4slaQEaCt2RyeeIczLdnvNj3+1Li+8alqVFYPQWsoEpvZ4w35na56L1PjfYF6AP0CH0e4oO9dqcx/DFRV9bf4wIwNtFfO1eDDi3E3B+5yT8+dIYONmBvtQc/657iNMFnL5OiWEYhmEYhmEYhmEYhmHMjH8eI6vuxIRf9AAAAABJRU5ErkJggg==" alt="">
-                              </div>
-                            </div>
-                            <div class="inp-r">
-                              <input id="loginPhone" type="text" placeholder="Enter phone">
-                            </div>
-                          </div>
-                        </div>
-
-                        <!-- Password -->
-                        <div class="box-li">
-                          <div class="inp-title">Password</div>
-                          <div class="inp">
-                            <input id="loginPassword" type="password" placeholder="Your password must be at least 8 characters">
-                            <div class="eye-bt">
-                              <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEQAAAA8CAYAAADfYhweAAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAQfSURBVHgB7ZtPVtswEMbH2acXoAeAC4Q9Zd8/e+gFwr70AMA+9ADAvqX7PPbQA0D35ALkAOl8ZJwaxbZG9kg2ab/3VAqJpfFPI1kajYn+64Uy7RcXi8WQf+xwmWdZdk8tJfW95bLN5Q2XofOVOZcZlycu99zmnBLIC0QMP+LyufBnGHrARs5IKalnn8sulxGXLQoTOuGBy5TLbSxAGiBf6SWMXCoofD1uHkBHZCuAmXL7P8hQtUD4ZtCLNzVfqYTC1wLimJbDIabQ9sQKzMDz+Y7ncwC7EnCu7iiN0PYZ23DD5SO1lA/IE+kMWoMiE++hsg4LFcH4OrJStUD4ptDLmomzL1ByW67ZliNqIM2kCtqXpJsLSueUwDosFfw09A2Z0F7uk6fk9sBb9rUXhCzMXrOnQOdsz8T3JTUQ6F+AEgQE2nQowUCgTYbinVQh2Yes9MonWmhctYjzApGe/NnyhvoI5axsAafZy1zR8oYsXL+uDoDJd7BDaXOX4mrNHh8QwBjVVSDfaw2lxgasIeDe6rVEoO7YloP8l6zGECx9xyUfJYci9Re91VonbMsF/pPVNB687Y8NRdpAJzXap3j0AXNa1aR65bnYYpKsCx1Uits45x/eFWcDneKfNSDyONIY2TWUC7LVDu59bcggnkBh47TL4XNN/iBWiGYDp4Emwd/OPIV1QrbacofMJ2qmTqBIAMs0VOkC2abm6spTTCfYFRA2AmO97XjsAsoDGS79B44hFkoKhetFfUGTcZ2KQIZkJ9zI2io3oqe0PlrNVQRiHZco7bVIUHrvIbVK9EhupCIQM8qi2hswhmIGqwjE+jTd+8QyhHJJRk+aqB7ihh7L1LfI26BQqenji5aTtGpd0yco7kp1SrZSxy36AiU2kJFsGFXqA5SBU5n2tD9EQdGtjqHMyiJm1tGokaRlqdUhlElVTNU68AKpDpsdO1KeEM742r2qmOox2WscmsSS2FOejyIGNYZYR6OgsaQ8hQSBUkCZ5J4VelBlKWQNfpeJ3KuIwwc5r4f5LyFHmbGEXkOQB8Y/yt+Q4TyJeGya1xF2lFmo4JrSK/ZZMuo4zJw0dVV+iJzVnFF6xYQyLEsPV+WHSJZwjNMyn6KFI7OKXPnQHLNY56o+JTsMa5JjttFQmuaYbSyURkDECCSwnBL1IzvZCkpjIGJEinVKmaJBUT1lqoTKsCEi+9QEn+I9fchI0jvfKK23mHuKGZCCMVjEYcJNBcYKynusTVoNmTJhESfD6AvZR9/KhMj+qMSO0OHznApi7iGuxGP2yT6t8paWQac7T/taT8HO+zg6kFxyRoNE3He0jMaFRuSwE84TZKZZwGuqSijYXZ8nA+Jq8ffFaBgJly17kTkPDTxmLd/TVUDZ8y3rN06AwuUXl99OWb0I8AezVQKxR7CjOAAAAABJRU5ErkJggg==" alt="">
-                            </div>
-                          </div>
-                        </div>
-
-                        <div class="rember-pass">
-                          <div class="l flex-align">
-                            <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABBCAYAAABhNaJ7AAAACXBIWXMAACxLAAAsSwGlPZapAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAMgSURBVHgB7Zu7dtNAEIZHbpwqquKKVJiGUKWLOypSQccb8FY8gTuooILKqaAKFaEhVHYlV3Zl5pdmfRRlxpZyctFevnM2a0urPZp/Z0cba4coETcZdWSz2Qy5OuZyKAXfczmd15oOpdwHaymOolYv5dycyyLLsjV1oJUAbDQMfs7lBVVG9xkIcs3lksX4t6/xTgHY8FOuJnR/I/nYQIwZC/HLaqAKwIbDld9Q5eohACGmLETRPHFLADZ+xNU76r+rdwUifGIR5vWDNwSQkX9P7Yx3gQkdruhmoFrSw+DuywXYvFHv45YnNAX4QLbxMA7B5Qo1d/JQRt4J8dwjLs+4vNrRFPc+dV+yWgcnXJ0bF/3gctH1EfNUsC0YxDOyhfjGtvzEh0Ht4MRojCj63RfjAbyTy1f+eGE02dpaCiDPec318Sy1Ouk9fO8zqry3yZBtxlTZesCJ0Ye3xteADZr3jvHHCaA97y/7Fujugkzdv8qpSgBZ22vuv3cZ6RF/lGM5bIcHjIyL5hQO18bxYwhwpJxYs+ssKBBkKmtx4BACaCuogsLDFCBv2dh3tCldxgAtAMbiAfmgQ2PfWWkHY5oCZgyIGksA71eACqpN1mMwFg5iF2CYYgBFThKAIicJQJGTBKDISQJQ5CQBKHKSABQ5SQCKnCQAhfkLcFvWsQuwsqZAaFvkgGpTigGkvwcM8ZdizabloENj3znQDkKAZdvGnqO+BYcA2ltTbdeI75hTIBYPUN+CWwIMZbtpEMg+Ys0D5hDA3EFF4WBN6cVANhJqXjCmcNAGs4Dt7jH4W7tINlF6jeRAaFuBS893Amg7KWG8tYPcJ86M42UeUSkAuwLU0P4pOmUFrQ56D987BlAb/cJllNVXgjOjnwl3dC6u5AWYulxekz36213wzZQZ5Avtiv5wG3jLopl89NTIYxv3Ppbail8Y/Y/uS6Z0AhHajDamTNGoHztpCgu2EbXPUsV9TutpAFba3FtqJ4JPwPjPO9PmHB09wQcwbb9oCSD7UmcRQRFIfBUCU3LmMsQ0uiRPv6QquPRdDIwyFnZXbZKn/wO97ul0fb7q4AAAAABJRU5ErkJggg==" alt="">
-                            Remember account
-                          </div>
-                          <div class="r">Forgot Password?</div>
-                        </div>
-
-                        <div class="bt flex-center login-disabled" id="loginButton">Log In</div>
-
-                        <div class="box-tips flex-align">
-                          By logging in, I agree to the TARM
-                          <span>Service Agreement</span>
-                          and
-                          <span>Privacy Policy</span>
-                        </div>
-
-                        <div class="box-tips bottom flex-align">
-                          Don't have an account yet?
-                          <span>Sign Up</span>
-                        </div>
-                      </div> <!-- /user-login-box -->
-                    </div> <!-- /login-box -->
-                  </div>
-                </div>
-              </div>
-
-            </div> <!-- /login-page-out -->
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                class="input"
+                placeholder="Enter phone"
+                autocomplete="tel"
+                inputmode="tel"
+              />
+            </div>
+            <p class="field-error" id="phoneError">Please enter a valid phone number.</p>
           </div>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <!-- Phone code popup -->
-  <div class="phone-code-modal" id="phoneCodeModal">
-    <div class="phone-code-backdrop" id="phoneCodeBackdrop"></div>
-    <div class="phone-code-panel">
-      <div class="phone-code-header">
-        <div class="phone-code-title">Select area code</div>
-        <div class="phone-code-close" id="phoneCodeClose">
-          <div class="phone-code-close-icon"></div>
-        </div>
-      </div>
-      <div class="phone-code-search">
-        <input class="phone-code-search-input" id="phoneCodeSearch" type="text" placeholder="Please search for the international dialing code">
-      </div>
-      <div class="phone-code-list-label">Commonly used countries</div>
-      <div class="phone-code-list" id="phoneCodeList">
-        <!-- items inserted by script -->
-      </div>
-    </div>
+          <div class="field-group">
+            <div class="field-label">Password</div>
+            <div class="password-row">
+              <input
+                id="password"
+                name="password"
+                type="password"
+                class="input"
+                placeholder="Your password must be at least 8 characters"
+                minlength="8"
+                autocomplete="current-password"
+              />
+              <button type="button" class="password-toggle" aria-label="Toggle password visibility">
+                👁
+              </button>
+            </div>
+            <p class="field-hint">Your password must be at least 8 characters.</p>
+            <p class="field-error" id="passwordError">Password must be at least 8 characters.</p>
+          </div>
+
+          <div class="options-row">
+            <label class="checkbox">
+              <input
+                id="rememberMe"
+                name="remember_me"
+                type="checkbox"
+                checked
+              />
+              <span>Remember account</span>
+            </label>
+            <a href="#" class="link-inline">Forgot Password?</a>
+          </div>
+
+          <button id="loginButton" type="submit" class="btn-primary" disabled>
+            Log In
+          </button>
+
+          <p class="agreement">
+            By logging in, I agree to the TARM
+            <a href="#">Service Agreement</a>
+            and
+            <a href="#">Privacy Policy</a>.
+          </p>
+
+          <div class="signup-row">
+            <span>Don't have an account yet?</span>
+            <a href="#" id="signupLink">Sign Up</a>
+          </div>
+        </form>
+      </section>
+    </main>
   </div>
 
   <script>
-    // Back button: go to Account Information page
-    document.addEventListener("DOMContentLoaded", function () {
-      try {
-        var backBtn = document.querySelector(".van-nav-bar__left");
-        if (backBtn && !backBtn.dataset.boundBack) {
-          backBtn.dataset.boundBack = "1";
-          backBtn.addEventListener("click", function (e) {
-            e.preventDefault();
-            e.stopPropagation();
-            window.location.href = "Account Information.html";
-          });
-        }
-      } catch (e) {
-        console && console.warn && console.warn("back handler error", e);
-      }
-    });
-  </script>
-
-  <script>
-    // Static phone code popup + login button behavior
     (function () {
-      var codes = [
-        { name: "Slovenia", dial: "+386" },
-        { name: "Panama", dial: "+507" },
-        { name: "Syria", dial: "+963" },
-        { name: "Republic of Lebanon", dial: "+961" },
-        { name: "Cyprus", dial: "+357" },
-        { name: "Saudi Arabia", dial: "+966" }
-      ];
+      const phoneInput = document.getElementById("phone");
+      const passwordInput = document.getElementById("password");
+      const loginButton = document.getElementById("loginButton");
+      const loginForm = document.getElementById("loginForm");
+      const phoneError = document.getElementById("phoneError");
+      const passwordError = document.getElementById("passwordError");
+      const passwordToggle = document.querySelector(".password-toggle");
+      const backButton = document.getElementById("backButton");
+      const signupLink = document.getElementById("signupLink");
 
-      var modal = document.getElementById("phoneCodeModal");
-      var listEl = document.getElementById("phoneCodeList");
-      var searchInput = document.getElementById("phoneCodeSearch");
-      var closeBtn = document.getElementById("phoneCodeClose");
-      var backdrop = document.getElementById("phoneCodeBackdrop");
-      var trigger = document.getElementById("phoneCodeTrigger");
-      var codeTextEl = trigger ? trigger.querySelector(".phone-code-text") : null;
+      function validate() {
+        const phoneValue = phoneInput.value.trim();
+        const passwordValue = passwordInput.value.trim();
 
-      function renderList(filter) {
-        if (!listEl) return;
-        listEl.innerHTML = "";
-        var query = (filter || "").toLowerCase();
+        const isPhoneValid = phoneValue.length >= 6;
+        const isPasswordValid = passwordValue.length >= 8;
 
-        codes.forEach(function (item) {
-          if (query) {
-            var target = (item.name + " " + item.dial).toLowerCase();
-            if (target.indexOf(query) === -1) {
-              return;
-            }
-          }
-
-          var row = document.createElement("div");
-          row.className = "phone-code-item";
-
-          var main = document.createElement("div");
-          main.className = "phone-code-item-main";
-
-          var flag = document.createElement("div");
-          flag.className = "phone-code-flag";
-
-          var name = document.createElement("div");
-          name.className = "phone-code-name";
-          name.textContent = item.name;
-
-          main.appendChild(flag);
-          main.appendChild(name);
-
-          var dial = document.createElement("div");
-          dial.className = "phone-code-dial";
-          dial.textContent = item.dial;
-
-          row.appendChild(main);
-          row.appendChild(dial);
-
-          row.addEventListener("click", function () {
-            if (codeTextEl) {
-              codeTextEl.textContent = item.dial;
-            }
-            hideModal();
-          });
-
-          listEl.appendChild(row);
-        });
-      }
-
-      function showModal() {
-        if (!modal) return;
-        renderList("");
-        if (searchInput) {
-          searchInput.value = "";
-        }
-        modal.classList.add("show");
-      }
-
-      function hideModal() {
-        if (!modal) return;
-        modal.classList.remove("show");
-      }
-
-      if (trigger) {
-        trigger.addEventListener("click", function () {
-          showModal();
-        });
-      }
-
-      if (closeBtn) {
-        closeBtn.addEventListener("click", hideModal);
-      }
-      if (backdrop) {
-        backdrop.addEventListener("click", hideModal);
-      }
-      if (searchInput) {
-        searchInput.addEventListener("input", function () {
-          renderList(searchInput.value || "");
-        });
-      }
-
-      // Login validation
-      var phoneInput = document.getElementById("loginPhone");
-      var passwordInput = document.getElementById("loginPassword");
-      var loginButton = document.getElementById("loginButton");
-
-      function updateLoginState() {
-        if (!phoneInput || !passwordInput || !loginButton) return;
-        var phone = (phoneInput.value || "").trim();
-        var pass = passwordInput.value || "";
-        var enabled = phone.length > 0 && pass.length >= 8;
-
-        if (enabled) {
-          loginButton.classList.remove("login-disabled");
-          loginButton.classList.add("login-enabled");
+        if (isPhoneValid && isPasswordValid) {
+          loginButton.disabled = false;
+          loginButton.classList.add("btn-primary--active");
         } else {
-          loginButton.classList.add("login-disabled");
-          loginButton.classList.remove("login-enabled");
+          loginButton.disabled = true;
+          loginButton.classList.remove("btn-primary--active");
         }
       }
 
-      if (phoneInput) {
-        phoneInput.addEventListener("input", updateLoginState);
-      }
-      if (passwordInput) {
-        passwordInput.addEventListener("input", updateLoginState);
-      }
+      phoneInput.addEventListener("input", validate);
+      passwordInput.addEventListener("input", validate);
 
-      if (loginButton) {
-        loginButton.addEventListener("click", function () {
-          if (!loginButton.classList.contains("login-enabled")) {
-            return;
-          }
-          // Test behavior: go to Member page after "login"
-          window.location.href = "Member.html";
+      if (passwordToggle) {
+        passwordToggle.addEventListener("click", function () {
+          const current = passwordInput.getAttribute("type");
+          const next = current === "password" ? "text" : "password";
+          passwordInput.setAttribute("type", next);
+          passwordToggle.classList.toggle("password-toggle--active");
         });
       }
 
-      updateLoginState();
+      loginForm.addEventListener("submit", function (event) {
+        event.preventDefault();
+
+        const phoneValue = phoneInput.value.trim();
+        const passwordValue = passwordInput.value.trim();
+
+        const isPhoneValid = phoneValue.length >= 6;
+        const isPasswordValid = passwordValue.length >= 8;
+
+        phoneError.style.display = isPhoneValid ? "none" : "block";
+        passwordError.style.display = isPasswordValid ? "none" : "block";
+
+        if (!isPhoneValid || !isPasswordValid) {
+          return;
+        }
+
+        // Demo redirect. Replace with real backend call later.
+        window.location.href = "home.html";
+      });
+
+      if (backButton) {
+        backButton.addEventListener("click", function () {
+          window.history.back();
+        });
+      }
+
+      if (signupLink) {
+        signupLink.addEventListener("click", function (event) {
+          event.preventDefault();
+          window.location.href = "register.html";
+        });
+      }
     })();
   </script>
-
-  <script src="./nav-links.js"></script>
 </body>
 </html>
