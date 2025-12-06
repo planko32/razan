@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en" class="dark">
 <head>
@@ -130,6 +131,15 @@
       gap: 6px;
       font-size: 13px;
       color: #60a5fa;
+    }
+
+    .section-right.disabled span {
+      color: #6b7280;
+    }
+
+    .section-right.disabled .section-arrow {
+      border-top-color: #4b5563;
+      border-right-color: #4b5563;
     }
 
     .section-arrow {
@@ -290,6 +300,12 @@
       font-weight: 500;
     }
 
+    .btn-confirm.btn-disabled {
+      background: #111827;
+      color: #6b7280;
+      cursor: not-allowed;
+    }
+
     .modal-error {
       margin-top: 6px;
       font-size: 11px;
@@ -329,7 +345,7 @@
               <div class="section-text-sub">Phone number has been bound</div>
             </div>
           </div>
-          <div class="section-right">
+          <div class="section-right disabled">
             <span>Set</span>
             <div class="section-arrow"></div>
           </div>
@@ -396,7 +412,7 @@
         <div class="modal-error" id="modalError"></div>
         <div class="modal-footer">
           <button type="button" class="modal-btn btn-cancel" id="modalCancel">Cancel</button>
-          <button type="submit" class="modal-btn btn-confirm">Confirm</button>
+          <button type="submit" class="modal-btn btn-confirm btn-disabled" id="confirmButton" disabled>Confirm</button>
         </div>
       </form>
     </div>
@@ -413,11 +429,23 @@
       var modalClose = document.getElementById("modalClose");
       var modalCancel = document.getElementById("modalCancel");
       var modalForm = document.getElementById("modalForm");
+      var confirmButton = document.getElementById("confirmButton");
+
+      function setConfirmEnabled(enabled) {
+        if (enabled) {
+          confirmButton.disabled = false;
+          confirmButton.classList.remove("btn-disabled");
+        } else {
+          confirmButton.disabled = true;
+          confirmButton.classList.add("btn-disabled");
+        }
+      }
 
       function clearModal() {
         modalFields.innerHTML = "";
         modalError.textContent = "";
         modalError.classList.remove("show");
+        setConfirmEnabled(false);
       }
 
       function createInput(name, label, type, placeholder) {
@@ -446,23 +474,45 @@
 
         if (type === "fund") {
           modalTitle.textContent = "Fund Password";
-          modalDescription.textContent = "Set a separate fund password to protect withdrawals and transfers.";
-          modalFields.appendChild(createInput("fundPassword", "New fund password", "password", "Enter 6-20 characters"));
-          modalFields.appendChild(createInput("fundPasswordConfirm", "Confirm fund password", "password", "Repeat password"));
+          modalDescription.textContent = "Set or update your 6-digit fund password.";
+          modalFields.appendChild(createInput("fundNew", "New fund password (6 digits)", "password", "Enter 6 digits"));
+          modalFields.appendChild(createInput("fundConfirm", "Confirm new fund password", "password", "Repeat 6 digits"));
+          modalFields.appendChild(createInput("fundCurrent", "Current fund password", "password", "Enter your current fund password"));
+
+          var fn = document.getElementById("fundNew");
+          var fc = document.getElementById("fundConfirm");
+          var fcur = document.getElementById("fundCurrent");
+
+          function validateFund() {
+            var v1 = (fn.value || "").trim();
+            var v2 = (fc.value || "").trim();
+            var v3 = (fcur.value || "").trim();
+            var sixDigits = /^[0-9]{6}$/;
+            var valid = sixDigits.test(v1) && v1 === v2 && v3.length > 0;
+            setConfirmEnabled(valid);
+          }
+
+          fn.addEventListener("input", validateFund);
+          fc.addEventListener("input", validateFund);
+          fcur.addEventListener("input", validateFund);
+          validateFund();
         } else if (type === "login") {
           modalTitle.textContent = "Login Password";
           modalDescription.textContent = "Change the password used to log in to your account.";
           modalFields.appendChild(createInput("oldPassword", "Current password", "password", "Enter current password"));
           modalFields.appendChild(createInput("newPassword", "New password", "password", "Enter 8-20 characters"));
           modalFields.appendChild(createInput("newPasswordConfirm", "Confirm new password", "password", "Repeat password"));
+          setConfirmEnabled(true);
         } else if (type === "email") {
           modalTitle.textContent = "Bind Email";
           modalDescription.textContent = "Bind an email to receive verification codes and security alerts.";
           modalFields.appendChild(createInput("email", "Email address", "email", "name@example.com"));
           modalFields.appendChild(createInput("code", "Verification code", "text", "Enter 6-digit code"));
+          setConfirmEnabled(true);
         } else {
           modalTitle.textContent = "Security";
           modalDescription.textContent = "";
+          setConfirmEnabled(false);
         }
 
         modal.setAttribute("data-type", type);
@@ -487,29 +537,36 @@
         var formData = new FormData(modalForm);
 
         if (type === "fund") {
-          var p1 = (formData.get("fundPassword") || "").trim();
-          var p2 = (formData.get("fundPasswordConfirm") || "").trim();
-          if (p1.length < 6) {
-            showError("Password must be at least 6 characters.");
+          var newP = (formData.get("fundNew") || "").trim();
+          var confirmP = (formData.get("fundConfirm") || "").trim();
+          var currentP = (formData.get("fundCurrent") || "").trim();
+          var sixDigits = /^[0-9]{6}$/;
+
+          if (!sixDigits.test(newP)) {
+            showError("Fund password must be exactly 6 digits.");
             return;
           }
-          if (p1 !== p2) {
-            showError("Passwords do not match.");
+          if (newP !== confirmP) {
+            showError("Fund passwords do not match.");
+            return;
+          }
+          if (!currentP) {
+            showError("Current fund password is required.");
             return;
           }
         } else if (type === "login") {
           var oldP = (formData.get("oldPassword") || "").trim();
-          var newP = (formData.get("newPassword") || "").trim();
-          var newP2 = (formData.get("newPasswordConfirm") || "").trim();
+          var newL = (formData.get("newPassword") || "").trim();
+          var newL2 = (formData.get("newPasswordConfirm") || "").trim();
           if (!oldP) {
             showError("Current password is required.");
             return;
           }
-          if (newP.length < 8) {
+          if (newL.length < 8) {
             showError("New password must be at least 8 characters.");
             return;
           }
-          if (newP !== newP2) {
+          if (newL !== newL2) {
             showError("New passwords do not match.");
             return;
           }
