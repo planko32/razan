@@ -1,0 +1,557 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <title>Security Center</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no,viewport-fit=cover" />
+  <style>
+    :root {
+      color-scheme: dark;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: #05060b;
+      color: #f9fafb;
+      min-height: 100vh;
+    }
+
+    .page {
+      min-height: 100vh;
+      background-color: #05060b;
+      display: flex;
+      justify-content: center;
+    }
+
+    .page-inner {
+      width: 100%;
+      max-width: 480px;
+      padding: 0 12px 24px;
+    }
+
+    .nav-bar-placeholder {
+      height: 46px;
+    }
+
+    .nav-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 46px;
+      background-color: #05060b;
+      display: flex;
+      align-items: center;
+      padding: 0 12px;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.3);
+      z-index: 20;
+    }
+
+    .nav-back {
+      width: 32px;
+      height: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 999px;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .nav-back-icon {
+      width: 18px;
+      height: 18px;
+      border-left: 2px solid #e5e7eb;
+      border-bottom: 2px solid #e5e7eb;
+      transform: rotate(45deg);
+    }
+
+    .nav-title {
+      flex: 1;
+      text-align: center;
+      font-size: 16px;
+      font-weight: 500;
+    }
+
+    .section-list {
+      margin-top: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .section-item {
+      background: #111827;
+      border-radius: 12px;
+      padding: 14px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 8px 16px rgba(15, 23, 42, 0.6);
+    }
+
+    .section-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .section-icon {
+      width: 26px;
+      height: 26px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at 0% 0%, #22d3ee, #0f172a);
+      font-size: 14px;
+    }
+
+    .section-text-main {
+      font-size: 15px;
+      font-weight: 400;
+    }
+
+    .section-text-sub {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+
+    .section-right {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: #60a5fa;
+    }
+
+    .section-arrow {
+      width: 7px;
+      height: 7px;
+      border-top: 2px solid #9ca3af;
+      border-right: 2px solid #9ca3af;
+      transform: rotate(45deg);
+    }
+
+    .section-item.clickable {
+      cursor: pointer;
+    }
+
+    .section-item.clickable:active {
+      opacity: 0.8;
+    }
+
+    .security-modal {
+      position: fixed;
+      inset: 0;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 40;
+    }
+
+    .security-modal.show {
+      display: flex;
+    }
+
+    .security-modal-backdrop {
+      position: absolute;
+      inset: 0;
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(4px);
+    }
+
+    .security-modal-content {
+      position: relative;
+      width: 100%;
+      max-width: 420px;
+      margin: 0 16px;
+      background: #020617;
+      border-radius: 16px;
+      padding: 18px 18px 16px;
+      box-shadow: 0 20px 40px rgba(15, 23, 42, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.35);
+      z-index: 1;
+    }
+
+    .modal-title-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .modal-title {
+      font-size: 15px;
+      font-weight: 500;
+    }
+
+    .modal-close {
+      width: 26px;
+      height: 26px;
+      border-radius: 999px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .modal-close-lines {
+      position: relative;
+      width: 14px;
+      height: 14px;
+    }
+
+    .modal-close-lines::before,
+    .modal-close-lines::after {
+      content: "";
+      position: absolute;
+      inset: 50%;
+      width: 100%;
+      height: 2px;
+      background: #9ca3af;
+      transform-origin: center;
+    }
+
+    .modal-close-lines::before {
+      transform: translate(-50%, -50%) rotate(45deg);
+    }
+
+    .modal-close-lines::after {
+      transform: translate(-50%, -50%) rotate(-45deg);
+    }
+
+    .modal-description {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-bottom: 14px;
+    }
+
+    .modal-form-group {
+      margin-bottom: 10px;
+    }
+
+    .modal-label {
+      display: block;
+      font-size: 12px;
+      margin-bottom: 4px;
+      color: #e5e7eb;
+    }
+
+    .modal-input {
+      width: 100%;
+      border-radius: 10px;
+      border: 1px solid rgba(55, 65, 81, 0.9);
+      padding: 9px 11px;
+      background: #020617;
+      color: #f9fafb;
+      font-size: 13px;
+      outline: none;
+    }
+
+    .modal-input:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px rgba(56, 189, 248, 0.5);
+    }
+
+    .modal-footer {
+      display: flex;
+      justify-content: flex-end;
+      gap: 8px;
+      margin-top: 12px;
+    }
+
+    .modal-btn {
+      min-width: 88px;
+      border-radius: 999px;
+      padding: 8px 14px;
+      font-size: 13px;
+      border: none;
+      cursor: pointer;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .btn-cancel {
+      background: #111827;
+      color: #e5e7eb;
+    }
+
+    .btn-confirm {
+      background: linear-gradient(135deg, #22c55e, #22d3ee);
+      color: #020617;
+      font-weight: 500;
+    }
+
+    .modal-error {
+      margin-top: 6px;
+      font-size: 11px;
+      color: #f97373;
+      display: none;
+    }
+
+    .modal-error.show {
+      display: block;
+    }
+
+    @media (min-width: 768px) {
+      .page-inner {
+        margin-top: 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <div class="page-inner">
+      <div class="nav-bar-placeholder"></div>
+      <div class="nav-bar">
+        <div class="nav-back" id="backButton">
+          <div class="nav-back-icon"></div>
+        </div>
+        <div class="nav-title">Security Center</div>
+        <div style="width:32px;height:32px;"></div>
+      </div>
+
+      <div class="section-list">
+        <div class="section-item">
+          <div class="section-left">
+            <div class="section-icon">📱</div>
+            <div>
+              <div class="section-text-main">Phone</div>
+              <div class="section-text-sub">Phone number has been bound</div>
+            </div>
+          </div>
+          <div class="section-right">
+            <span>Set</span>
+            <div class="section-arrow"></div>
+          </div>
+        </div>
+
+        <div class="section-item clickable" data-type="fund">
+          <div class="section-left">
+            <div class="section-icon">💰</div>
+            <div>
+              <div class="section-text-main">Fund Password</div>
+              <div class="section-text-sub">Set a password for withdrawals</div>
+            </div>
+          </div>
+          <div class="section-right">
+            <span>Set</span>
+            <div class="section-arrow"></div>
+          </div>
+        </div>
+
+        <div class="section-item clickable" data-type="login">
+          <div class="section-left">
+            <div class="section-icon">🔒</div>
+            <div>
+              <div class="section-text-main">Login Password</div>
+              <div class="section-text-sub">Change your login password</div>
+            </div>
+          </div>
+          <div class="section-right">
+            <span>Set</span>
+            <div class="section-arrow"></div>
+          </div>
+        </div>
+
+        <div class="section-item clickable" data-type="email">
+          <div class="section-left">
+            <div class="section-icon">✉️</div>
+            <div>
+              <div class="section-text-main">Email</div>
+              <div class="section-text-sub">Bind an email for security</div>
+            </div>
+          </div>
+          <div class="section-right">
+            <span>Set</span>
+            <div class="section-arrow"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="security-modal" id="securityModal">
+    <div class="security-modal-backdrop" id="modalBackdrop"></div>
+    <div class="security-modal-content">
+      <div class="modal-title-row">
+        <div class="modal-title" id="modalTitle">Security</div>
+        <div class="modal-close" id="modalClose">
+          <div class="modal-close-lines"></div>
+        </div>
+      </div>
+      <div class="modal-description" id="modalDescription"></div>
+
+      <form id="modalForm">
+        <div id="modalFields"></div>
+        <div class="modal-error" id="modalError"></div>
+        <div class="modal-footer">
+          <button type="button" class="modal-btn btn-cancel" id="modalCancel">Cancel</button>
+          <button type="submit" class="modal-btn btn-confirm">Confirm</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      var modal = document.getElementById("securityModal");
+      var modalTitle = document.getElementById("modalTitle");
+      var modalDescription = document.getElementById("modalDescription");
+      var modalFields = document.getElementById("modalFields");
+      var modalError = document.getElementById("modalError");
+      var modalBackdrop = document.getElementById("modalBackdrop");
+      var modalClose = document.getElementById("modalClose");
+      var modalCancel = document.getElementById("modalCancel");
+      var modalForm = document.getElementById("modalForm");
+
+      function clearModal() {
+        modalFields.innerHTML = "";
+        modalError.textContent = "";
+        modalError.classList.remove("show");
+      }
+
+      function createInput(name, label, type, placeholder) {
+        var group = document.createElement("div");
+        group.className = "modal-form-group";
+
+        var labelEl = document.createElement("label");
+        labelEl.className = "modal-label";
+        labelEl.textContent = label;
+        labelEl.setAttribute("for", name);
+
+        var input = document.createElement("input");
+        input.className = "modal-input";
+        input.type = type || "text";
+        input.name = name;
+        input.id = name;
+        input.placeholder = placeholder || "";
+
+        group.appendChild(labelEl);
+        group.appendChild(input);
+        return group;
+      }
+
+      function openModal(type) {
+        clearModal();
+
+        if (type === "fund") {
+          modalTitle.textContent = "Fund Password";
+          modalDescription.textContent = "Set a separate fund password to protect withdrawals and transfers.";
+          modalFields.appendChild(createInput("fundPassword", "New fund password", "password", "Enter 6-20 characters"));
+          modalFields.appendChild(createInput("fundPasswordConfirm", "Confirm fund password", "password", "Repeat password"));
+        } else if (type === "login") {
+          modalTitle.textContent = "Login Password";
+          modalDescription.textContent = "Change the password used to log in to your account.";
+          modalFields.appendChild(createInput("oldPassword", "Current password", "password", "Enter current password"));
+          modalFields.appendChild(createInput("newPassword", "New password", "password", "Enter 8-20 characters"));
+          modalFields.appendChild(createInput("newPasswordConfirm", "Confirm new password", "password", "Repeat password"));
+        } else if (type === "email") {
+          modalTitle.textContent = "Bind Email";
+          modalDescription.textContent = "Bind an email to receive verification codes and security alerts.";
+          modalFields.appendChild(createInput("email", "Email address", "email", "name@example.com"));
+          modalFields.appendChild(createInput("code", "Verification code", "text", "Enter 6-digit code"));
+        } else {
+          modalTitle.textContent = "Security";
+          modalDescription.textContent = "";
+        }
+
+        modal.setAttribute("data-type", type);
+        modal.classList.add("show");
+      }
+
+      function closeModal() {
+        modal.classList.remove("show");
+      }
+
+      function showError(msg) {
+        modalError.textContent = msg;
+        modalError.classList.add("show");
+      }
+
+      function handleSubmit(event) {
+        event.preventDefault();
+        modalError.classList.remove("show");
+        modalError.textContent = "";
+
+        var type = modal.getAttribute("data-type");
+        var formData = new FormData(modalForm);
+
+        if (type === "fund") {
+          var p1 = (formData.get("fundPassword") || "").trim();
+          var p2 = (formData.get("fundPasswordConfirm") || "").trim();
+          if (p1.length < 6) {
+            showError("Password must be at least 6 characters.");
+            return;
+          }
+          if (p1 !== p2) {
+            showError("Passwords do not match.");
+            return;
+          }
+        } else if (type === "login") {
+          var oldP = (formData.get("oldPassword") || "").trim();
+          var newP = (formData.get("newPassword") || "").trim();
+          var newP2 = (formData.get("newPasswordConfirm") || "").trim();
+          if (!oldP) {
+            showError("Current password is required.");
+            return;
+          }
+          if (newP.length < 8) {
+            showError("New password must be at least 8 characters.");
+            return;
+          }
+          if (newP !== newP2) {
+            showError("New passwords do not match.");
+            return;
+          }
+        } else if (type === "email") {
+          var email = (formData.get("email") || "").trim();
+          var code = (formData.get("code") || "").trim();
+          if (!email || email.indexOf("@") === -1) {
+            showError("Please enter a valid email address.");
+            return;
+          }
+          if (code.length < 4) {
+            showError("Please enter the verification code.");
+            return;
+          }
+        }
+
+        alert("Saved successfully (test only, no real backend).");
+        closeModal();
+      }
+
+      var clickableItems = document.querySelectorAll(".section-item.clickable");
+      clickableItems.forEach(function (item) {
+        item.addEventListener("click", function () {
+          var type = item.getAttribute("data-type");
+          openModal(type);
+        });
+      });
+
+      modalBackdrop.addEventListener("click", closeModal);
+      modalClose.addEventListener("click", closeModal);
+      modalCancel.addEventListener("click", closeModal);
+      modalForm.addEventListener("submit", handleSubmit);
+
+      var backButton = document.getElementById("backButton");
+      backButton.addEventListener("click", function () {
+        if (window.history.length > 1) {
+          window.history.back();
+        } else {
+          window.location.href = "./Member.html";
+        }
+      });
+    })();
+  </script>
+</body>
+</html>
