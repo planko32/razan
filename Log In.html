@@ -1,381 +1,289 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>Log In - EXARAI Style</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Log In</title>
   <style>
     :root {
-      --bg: #020617;
-      --card-bg: #020617;
-      --section-bg: #020617;
-      --accent: #22c55e;
-      --accent-soft: rgba(34, 197, 94, 0.14);
-      --border-subtle: rgba(148, 163, 184, 0.38);
-      --text-main: #e5e7eb;
-      --text-soft: #9ca3af;
-      --error: #fb7185;
-      --btn-disabled: #111827;
-      --btn-text-disabled: #6b7280;
-      --input-bg: #020617;
-      --shadow-soft: 0 20px 60px rgba(15, 23, 42, 0.9);
+      --page-bg: #05070b;
+      --card-bg: #05070b;
+      --field-bg: #17202d;
+      --prefix-bg: #0e131b;
+      --border-color: #343b48;
+      --text-main: #ffffff;
+      --text-muted: #7b8593;
+      --primary-gradient-start: #00c3aa;
+      --primary-gradient-end: #0063ff;
+      --link-color: #1ea7ff;
     }
 
-    * {
+    *,
+    *::before,
+    *::after {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
     body {
-      min-height: 100vh;
       margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", sans-serif;
-      background: var(--bg);
+      font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+      background-color: var(--page-bg);
       color: var(--text-main);
-      display: flex;
-      align-items: stretch;
-      justify-content: center;
-      padding: 0;
     }
 
     .page {
-      width: 100%;
-      max-width: 480px;
-      background: radial-gradient(circle at 10% 0%, rgba(56, 189, 248, 0.16), transparent 55%),
-                  radial-gradient(circle at 90% 0%, rgba(59, 130, 246, 0.18), transparent 55%),
-                  #020617;
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
+      background-color: var(--page-bg);
       color: var(--text-main);
     }
 
     .hero {
       position: relative;
       width: 100%;
-      height: 210px;
-      background-image: url("Log In_files/login-bg-h5-CVRiyHgB.png");
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
       overflow: hidden;
     }
 
-    .hero-overlay {
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(circle at 20% 0%, rgba(15, 23, 42, 0.4), transparent 55%),
-                  radial-gradient(circle at 80% 0%, rgba(15, 23, 42, 0.65), transparent 55%);
-      pointer-events: none;
+    .hero img.hero-bg {
+      display: block;
+      width: 100%;
+      height: auto;
     }
 
-    .hero-topbar {
+    .hero-button {
       position: absolute;
-      inset: 0 0 auto 0;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 14px 14px 0;
-      z-index: 2;
-    }
-
-    .icon-button {
+      top: 14px;
       width: 32px;
       height: 32px;
       border-radius: 999px;
-      border: 0;
-      background: rgba(0, 0, 0, 0.45);
-      display: inline-flex;
+      background: rgba(5, 10, 18, 0.8);
+      backdrop-filter: blur(6px);
+      display: flex;
       align-items: center;
       justify-content: center;
-      color: #e5e7eb;
-      cursor: pointer;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.55);
+      border: 1px solid rgba(255, 255, 255, 0.1);
     }
 
-    .icon-button span {
-      font-size: 18px;
-      line-height: 1;
-      transform: translateY(-1px);
+    .hero-button.back {
+      left: 12px;
     }
 
-    .icon-button--secondary span {
-      font-size: 16px;
-      transform: translateY(0);
+    .hero-button.support {
+      right: 12px;
     }
 
-    .hero-content {
-      position: absolute;
-      inset: auto 18px 18px 18px;
-      z-index: 1;
-      color: #e5e7eb;
+    .back-arrow {
+      width: 10px;
+      height: 10px;
+      border-left: 2px solid #ffffff;
+      border-bottom: 2px solid #ffffff;
+      transform: rotate(45deg);
     }
 
-    .hero-title {
-      font-size: 16px;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 4px;
+    .support-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 999px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
-    .hero-subtitle {
-      font-size: 12px;
-      color: rgba(226, 232, 240, 0.9);
-      max-width: 260px;
-      line-height: 1.45;
+    .support-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
     }
 
     .content {
-      flex: 1;
-      background: linear-gradient(to bottom, rgba(0, 0, 0, 0.65), #020617 30%);
-      padding: 16px 14px 18px;
+      padding: 16px;
     }
 
-    .card {
-      background: var(--card-bg);
-      border-radius: 18px 18px 0 0;
-      padding: 18px 14px 18px;
-      border-top: 1px solid rgba(15, 23, 42, 0.9);
-      border-inline: 1px solid rgba(15, 23, 42, 0.9);
-      box-shadow: var(--shadow-soft);
-    }
-
-    .card-header {
-      margin-bottom: 14px;
-    }
-
-    .card-title {
-      font-size: 18px;
+    .title {
+      font-size: 20px;
       font-weight: 600;
-      margin-bottom: 4px;
-    }
-
-    .card-subtitle {
-      font-size: 12px;
-      color: var(--text-soft);
-    }
-
-    .field-group {
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .field-label {
-      font-size: 12px;
-      color: var(--text-soft);
+      font-size: 13px;
+      color: var(--text-main);
       margin-bottom: 6px;
     }
 
     .phone-row {
       display: flex;
       gap: 8px;
+      margin-bottom: 16px;
     }
 
-    .select-country {
-      position: relative;
-      flex: 0 0 34%;
-    }
-
-    .select-country select {
-      width: 100%;
-      height: 44px;
-      padding: 0 30px 0 12px;
-      border-radius: 10px;
-      border: 1px solid var(--border-subtle);
-      background: var(--input-bg);
-      color: var(--text-main);
-      font-size: 13px;
-      outline: none;
-      appearance: none;
-    }
-
-    .select-country::after {
-      content: "";
-      position: absolute;
-      right: 12px;
-      top: 50%;
-      transform: translateY(-50%) rotate(45deg);
-      width: 7px;
-      height: 7px;
-      border-right: 1.5px solid var(--text-soft);
-      border-bottom: 1.5px solid var(--text-soft);
-      pointer-events: none;
-    }
-
-    .input {
-      width: 100%;
-      height: 44px;
-      border-radius: 10px;
-      border: 1px solid var(--border-subtle);
-      background: var(--input-bg);
-      color: var(--text-main);
-      font-size: 13px;
+    .prefix-box {
+      min-width: 96px;
+      height: 48px;
+      border-radius: 8px;
       padding: 0 12px;
-      outline: none;
-    }
-
-    .input::placeholder {
-      color: rgba(148, 163, 184, 0.85);
-    }
-
-    .input:focus,
-    .select-country select:focus {
-      border-color: var(--accent);
-      box-shadow: 0 0 0 1px rgba(34, 197, 94, 0.65);
-    }
-
-    .password-row {
-      position: relative;
+      background-color: var(--prefix-bg);
+      border: 1px solid var(--border-color);
       display: flex;
       align-items: center;
+      justify-content: space-between;
+      font-size: 14px;
     }
 
-    .password-row input {
+    .prefix-box span {
+      display: inline-block;
+    }
+
+    .arrow-down {
+      width: 8px;
+      height: 8px;
+      border-left: 2px solid #ffffffd9;
+      border-bottom: 2px solid #ffffffd9;
+      transform: rotate(-45deg);
+      margin-left: 6px;
+    }
+
+    .input-field {
+      flex: 1;
+      height: 48px;
+      border-radius: 8px;
+      background-color: var(--field-bg);
+      border: 1px solid var(--border-color);
+      padding: 0 16px;
+      color: var(--text-main);
+      font-size: 14px;
+      outline: none;
+    }
+
+    .input-field::placeholder {
+      color: var(--text-muted);
+    }
+
+    .password-wrapper {
+      position: relative;
+      margin-bottom: 8px;
+    }
+
+    .password-wrapper input {
+      width: 100%;
       padding-right: 44px;
     }
 
-    .password-toggle {
+    .toggle-password {
       position: absolute;
-      right: 10px;
       top: 50%;
+      right: 14px;
       transform: translateY(-50%);
-      border: none;
-      background: transparent;
-      color: var(--text-soft);
-      font-size: 16px;
-      cursor: pointer;
-      padding: 4px;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      color: var(--text-muted);
+      background: rgba(10, 15, 24, 0.8);
     }
 
-    .password-toggle--active {
-      color: var(--accent);
-    }
-
-    .field-hint {
-      margin-top: 5px;
+    .helper-text {
       font-size: 11px;
-      color: var(--text-soft);
-    }
-
-    .field-error {
-      margin-top: 5px;
-      font-size: 11px;
-      color: var(--error);
-      display: none;
+      color: var(--text-muted);
+      margin-bottom: 14px;
     }
 
     .options-row {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin: 12px 0 14px;
-      gap: 12px;
+      margin-bottom: 18px;
+      margin-top: 2px;
+      font-size: 12px;
+    }
+
+    .remember-box {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      color: var(--text-muted);
     }
 
     .checkbox {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      font-size: 12px;
-      color: var(--text-soft);
-      cursor: pointer;
-    }
-
-    .checkbox input {
-      width: 14px;
-      height: 14px;
+      width: 16px;
+      height: 16px;
       border-radius: 4px;
-      border: 1px solid var(--border-subtle);
-      accent-color: var(--accent);
-      cursor: pointer;
+      border: 1px solid var(--border-color);
+      background: transparent;
     }
 
-    .link-inline {
-      font-size: 12px;
-      color: #38bdf8;
+    .forgot-link {
+      color: var(--link-color);
       text-decoration: none;
     }
 
-    .link-inline:hover {
+    .forgot-link:active,
+    .forgot-link:focus-visible {
       text-decoration: underline;
     }
 
-    .btn-primary {
+    .login-btn {
       width: 100%;
-      height: 46px;
+      height: 52px;
       border-radius: 999px;
       border: none;
-      background: var(--btn-disabled);
-      color: var(--btn-text-disabled);
-      font-size: 14px;
-      font-weight: 600;
-      letter-spacing: 0.06em;
-      text-transform: uppercase;
-      cursor: not-allowed;
-      transition: background 0.18s ease, transform 0.12s ease, box-shadow 0.18s ease, color 0.18s ease;
-      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+      outline: none;
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(255, 255, 255, 0.75);
+      background-image: linear-gradient(90deg, var(--primary-gradient-start), var(--primary-gradient-end));
+      box-shadow: 0 8px 18px rgba(0, 99, 255, 0.3);
+      margin-bottom: 14px;
     }
 
-    .btn-primary--active {
-      background: linear-gradient(135deg, #22c55e, #16a34a);
-      color: #e5e7eb;
-      cursor: pointer;
-      box-shadow: 0 16px 40px rgba(22, 163, 74, 0.75);
+    .login-btn:active {
+      transform: translateY(1px);
+      box-shadow: 0 4px 10px rgba(0, 99, 255, 0.35);
     }
 
-    .btn-primary--active:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 20px 50px rgba(22, 163, 74, 0.9);
-    }
-
-    .agreement {
-      margin-top: 12px;
+    .terms {
       font-size: 11px;
-      color: var(--text-soft);
+      color: var(--text-muted);
       line-height: 1.5;
+      margin-bottom: 18px;
     }
 
-    .agreement a {
-      color: #38bdf8;
+    .terms a {
+      color: var(--link-color);
       text-decoration: none;
     }
 
-    .agreement a:hover {
+    .terms a:active,
+    .terms a:focus-visible {
       text-decoration: underline;
     }
 
-    .signup-row {
-      margin-top: 14px;
+    .signup {
       font-size: 12px;
-      color: var(--text-soft);
-      text-align: center;
+      color: var(--text-muted);
     }
 
-    .signup-row a {
-      color: #38bdf8;
+    .signup a {
+      color: var(--link-color);
       text-decoration: none;
+      margin-left: 4px;
     }
 
-    .signup-row a:hover {
+    .signup a:active,
+    .signup a:focus-visible {
       text-decoration: underline;
     }
 
-    @media (min-width: 768px) {
-      body {
-        justify-content: center;
-      }
+    @media (min-width: 480px) {
       .page {
-        margin: 24px 0;
-        border-radius: 18px;
-        overflow: hidden;
-      }
-      .content {
-        padding-inline: 20px;
-      }
-      .card {
-        padding-inline: 18px;
+        max-width: 480px;
+        margin: 0 auto;
       }
     }
   </style>
@@ -383,186 +291,71 @@
 <body>
   <div class="page">
     <header class="hero">
-      <div class="hero-overlay"></div>
-      <div class="hero-topbar">
-        <button type="button" class="icon-button" id="backButton" aria-label="Back">
-          <span>‹</span>
-        </button>
-        <button type="button" class="icon-button icon-button--secondary" id="supportButton" aria-label="Support">
-          <span>🎧</span>
-        </button>
-      </div>
-      <div class="hero-content">
-        <div class="hero-title">EXARAI</div>
-        <div class="hero-subtitle">
-          Unleash your creativity with the power of EXARAI.
-          Explore the future of AI.
-        </div>
-      </div>
+      <img src="login-bg-h5.png" alt="EXARAI background" class="hero-bg" />
+      <button class="hero-button back" type="button">
+        <span class="back-arrow"></span>
+      </button>
+      <button class="hero-button support" type="button">
+        <span class="support-icon">
+          <img src="customer-service.png" alt="Support" />
+        </span>
+      </button>
     </header>
 
     <main class="content">
-      <section class="card">
-        <div class="card-header">
-          <h1 class="card-title">Log In</h1>
-          <p class="card-subtitle">Use your phone number and password to access your account.</p>
-        </div>
+      <h1 class="title">Log In</h1>
 
-        <form id="loginForm" novalidate>
-          <div class="field-group">
-            <div class="field-label">Phone</div>
-            <div class="phone-row">
-              <div class="select-country">
-                <select id="countryCode" name="country_code">
-                  <option value="+961" selected>+961</option>
-                  <option value="+966">+966</option>
-                  <option value="+971">+971</option>
-                  <option value="+962">+962</option>
-                  <option value="+20">+20</option>
-                  <option value="+90">+90</option>
-                  <option value="+44">+44</option>
-                  <option value="+1">+1</option>
-                </select>
-              </div>
-              <input
-                id="phone"
-                name="phone"
-                type="tel"
-                class="input"
-                placeholder="Enter phone"
-                autocomplete="tel"
-                inputmode="tel"
-              />
-            </div>
-            <p class="field-error" id="phoneError">Please enter a valid phone number.</p>
-          </div>
-
-          <div class="field-group">
-            <div class="field-label">Password</div>
-            <div class="password-row">
-              <input
-                id="password"
-                name="password"
-                type="password"
-                class="input"
-                placeholder="Your password must be at least 8 characters"
-                minlength="8"
-                autocomplete="current-password"
-              />
-              <button type="button" class="password-toggle" aria-label="Toggle password visibility">
-                👁
-              </button>
-            </div>
-            <p class="field-hint">Your password must be at least 8 characters.</p>
-            <p class="field-error" id="passwordError">Password must be at least 8 characters.</p>
-          </div>
-
-          <div class="options-row">
-            <label class="checkbox">
-              <input
-                id="rememberMe"
-                name="remember_me"
-                type="checkbox"
-                checked
-              />
-              <span>Remember account</span>
-            </label>
-            <a href="#" class="link-inline">Forgot Password?</a>
-          </div>
-
-          <button id="loginButton" type="submit" class="btn-primary" disabled>
-            Log In
+      <div class="field">
+        <div class="field-label">Phone</div>
+        <div class="phone-row">
+          <button type="button" class="prefix-box">
+            <span>+386</span>
+            <span class="arrow-down"></span>
           </button>
+          <input
+            type="tel"
+            class="input-field"
+            placeholder="Enter phone"
+            autocomplete="tel"
+          />
+        </div>
+      </div>
 
-          <p class="agreement">
-            By logging in, I agree to the TARM
-            <a href="#">Service Agreement</a>
-            and
-            <a href="#">Privacy Policy</a>.
-          </p>
+      <div class="field">
+        <div class="field-label">Password</div>
+        <div class="password-wrapper">
+          <input
+            type="password"
+            class="input-field"
+            placeholder="Your password must be at least 8 characters"
+            autocomplete="current-password"
+          />
+          <button type="button" class="toggle-password">👁</button>
+        </div>
+      </div>
 
-          <div class="signup-row">
-            <span>Don't have an account yet?</span>
-            <a href="#" id="signupLink">Sign Up</a>
-          </div>
-        </form>
-      </section>
+      <div class="options-row">
+        <label class="remember-box">
+          <span class="checkbox"></span>
+          <span>Remember account</span>
+        </label>
+        <a href="#" class="forgot-link">Forgot Password?</a>
+      </div>
+
+      <button type="button" class="login-btn">Log In</button>
+
+      <p class="terms">
+        By logging in, I agree to the TARM
+        <a href="#">Service Agreement</a>
+        and
+        <a href="#">Privacy Policy</a>
+      </p>
+
+      <p class="signup">
+        Don't have an account yet?
+        <a href="#">Sign Up</a>
+      </p>
     </main>
   </div>
-
-  <script>
-    (function () {
-      const phoneInput = document.getElementById("phone");
-      const passwordInput = document.getElementById("password");
-      const loginButton = document.getElementById("loginButton");
-      const loginForm = document.getElementById("loginForm");
-      const phoneError = document.getElementById("phoneError");
-      const passwordError = document.getElementById("passwordError");
-      const passwordToggle = document.querySelector(".password-toggle");
-      const backButton = document.getElementById("backButton");
-      const signupLink = document.getElementById("signupLink");
-
-      function validate() {
-        const phoneValue = phoneInput.value.trim();
-        const passwordValue = passwordInput.value.trim();
-
-        const isPhoneValid = phoneValue.length >= 6;
-        const isPasswordValid = passwordValue.length >= 8;
-
-        if (isPhoneValid && isPasswordValid) {
-          loginButton.disabled = false;
-          loginButton.classList.add("btn-primary--active");
-        } else {
-          loginButton.disabled = true;
-          loginButton.classList.remove("btn-primary--active");
-        }
-      }
-
-      phoneInput.addEventListener("input", validate);
-      passwordInput.addEventListener("input", validate);
-
-      if (passwordToggle) {
-        passwordToggle.addEventListener("click", function () {
-          const current = passwordInput.getAttribute("type");
-          const next = current === "password" ? "text" : "password";
-          passwordInput.setAttribute("type", next);
-          passwordToggle.classList.toggle("password-toggle--active");
-        });
-      }
-
-      loginForm.addEventListener("submit", function (event) {
-        event.preventDefault();
-
-        const phoneValue = phoneInput.value.trim();
-        const passwordValue = passwordInput.value.trim();
-
-        const isPhoneValid = phoneValue.length >= 6;
-        const isPasswordValid = passwordValue.length >= 8;
-
-        phoneError.style.display = isPhoneValid ? "none" : "block";
-        passwordError.style.display = isPasswordValid ? "none" : "block";
-
-        if (!isPhoneValid || !isPasswordValid) {
-          return;
-        }
-
-        // Demo redirect. Replace with real backend call later.
-        window.location.href = "home.html";
-      });
-
-      if (backButton) {
-        backButton.addEventListener("click", function () {
-          window.history.back();
-        });
-      }
-
-      if (signupLink) {
-        signupLink.addEventListener("click", function (event) {
-          event.preventDefault();
-          window.location.href = "register.html";
-        });
-      }
-    })();
-  </script>
 </body>
 </html>
